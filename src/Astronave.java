@@ -1,35 +1,72 @@
-import java.util.Scanner;
-
 public class Astronave extends Thread{
     private String modello;
-    private int id;
+    private int idAstronave;
     private String nomePilota;
     private String destinazione;
-    private Giudice g;
+    private Giudice giudice;
+    private int distanzaMancante = 0;
+    private int velocità;
+    private boolean inGara = true;
 
-    public Astronave (String modello, int id, String nomePilota, String destinazione, Giudice g) {
+    public Astronave (String modello, int idAstronave, String nomePilota, String destinazione, Giudice giudice, int velocità) {
         this.modello = modello;
-        this.id = id;
+        this.idAstronave = idAstronave;
         this.nomePilota = nomePilota;
         this.destinazione = destinazione;
-        this.g = g;
+        this.giudice = giudice;
+        this.velocità = velocità;
     }
 
     @Override
     public void run() {
-        System.out.println("Sono l'astronave: " + this.id + ", ed inizio la gara.");
+        System.out.println("Astronave: " + modello + " (Pilota: " + nomePilota + ") pronta per " + destinazione + "!");
+
 
         gareggia();
     }
 
     private void gareggia() {
-        System.out.println("Inserisci il pianeta dove desideri andare:");
+        while (inGara && distanzaMancante < giudice.getDistanzaPianeta()) {
+            try {
+                Thread.sleep(5000);
 
-        Scanner sc = new Scanner(System.in);
-        this.destinazione = sc.nextLine();
+                distanzaMancante += velocità;
 
-        //g.verifica();
+                if (distanzaMancante >= giudice.getDistanzaPianeta()) {
+                    distanzaMancante = giudice.getDistanzaPianeta();
+                    System.out.println("L'astronave " + modello + " è arrivata su " + destinazione + " !!!");
+                    inGara = false;
+                } else {
+                    System.out.println("All'astronave " + modello + " (Pilota: " + nomePilota + ") " + (giudice.getDistanzaPianeta() - distanzaMancante));
+                }
+            } catch (InterruptedException e) {
+                inGara = false;
+            }
+        }
 
-        System.out.println("Ho scelto questa destinazione: " + this.destinazione);
+    }
+
+    public int getIdAstronave() {
+        return idAstronave;
+    }
+
+    public String getModello() {
+        return modello;
+    }
+
+    public String getNomePilota() {
+        return nomePilota;
+    }
+
+    public String getDestinazione() {
+        return destinazione;
+    }
+
+    public int getDistanzaMancante() {
+        return distanzaMancante;
+    }
+
+    public int getVelocità() {
+        return velocità;
     }
 }
