@@ -34,7 +34,7 @@ public class Astronave extends Thread{
 
                 if (distanzaMancante >= giudice.getDistanzaPianeta()) {
                     distanzaMancante = giudice.getDistanzaPianeta();
-                    System.out.println("L'astronave " + modello + " è arrivata su " + destinazione + " !!!");
+                    System.out.println("L'astronave " + modello + "(Pilota: " + nomePilota + "), è arrivata su " + destinazione + " !!!");
                     inGara = false;
                 } else {
                     System.out.println("All'astronave " + modello + " (Pilota: " + nomePilota + ") " + (giudice.getDistanzaPianeta() - distanzaMancante));
